@@ -1,8 +1,8 @@
 """This module is a assembler used to transform asm lang to machine lang"""
+import os
 import helpers
 import bin_convertor
 import sym_tab_man
-import os
 
 def asm_to_mach_convertor(file : str) -> list:
     """
