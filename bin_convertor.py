@@ -17,6 +17,9 @@ class CCommandConvertor:
         Returns:
             list: List containing parsed ASM command (dest, comp, jump).
         """
+        if not isinstance(command, str):
+            raise TypeError("Command is not a string!")
+
         comp_jump = None
         dest = comp = jump =  "null"
 
@@ -27,6 +30,8 @@ class CCommandConvertor:
             dest, comp = command.split("=")
         elif "=" not in command and ";" in command:
             comp, jump = command.split(";")
+        else:
+            raise TypeError(f"Command={command} is not a ASM command!")
 
         return [dest, comp, jump]
 
@@ -40,6 +45,8 @@ class CCommandConvertor:
         Returns:
             str: Comp command in binary
         """
+        if not isinstance(comp_command, str):
+            raise TypeError("comp_command is not a string!")
         a = "0"
 
         if "M" in comp_command:
@@ -59,6 +66,9 @@ class CCommandConvertor:
         Returns:
             str: ASM command in binary.
         """
+        if not isinstance(command, str):
+            raise TypeError("Command is not a string!")
+
         bin_str = ""
 
         commands = self.dest_comp_jump_parser(command)
@@ -67,8 +77,11 @@ class CCommandConvertor:
         comp_bin = self.comp_bin_convertor(commands[1])
         jump_bin = self.config.jump.get(commands[2])
 
+        if None in (dest_bin, comp_bin, jump_bin):
+            raise ValueError(f"Invalid C-command parts: dest={commands[0]}, comp={commands[1]}, jump={commands[2]}")
+
         bin_str = "111" + comp_bin + dest_bin + jump_bin
-        print(bin_str)
+
         return bin_str
 
 def binary_num_calc(num: str) -> str:
@@ -83,8 +96,8 @@ def binary_num_calc(num: str) -> str:
     """
     try:
         num = int(num)
-    except ValueError as e:
-        raise ValueError("Inputed value is not a integer") from e
+    except TypeError as e:
+        raise TypeError("Inputed value is not a integer") from e
 
     if num < 0 or num > 32767:
         raise Exception(f"Number needs to be in range 0 to 32768. Number of value {num} was inputed")

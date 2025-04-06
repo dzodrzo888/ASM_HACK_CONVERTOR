@@ -9,7 +9,7 @@ class SymbolTable:
         self.table =  config.symbol_table
         self.curr_ram_var = 16
 
-    def symbol_adder(self, symbol:str, address: str):
+    def symbol_adder(self, symbol:str, address: int):
         """
         Adds symbol to the symbol table
 
@@ -17,6 +17,9 @@ class SymbolTable:
             symbol (str): Symbol to be read in the table.
             address (str): Address of the symbol.
         """
+        if not isinstance(symbol, str) or not isinstance(address, int):
+            raise TypeError("Symbol or address is not a string!")
+
         if symbol not in self.table:
             self.table[symbol] = address
 
@@ -27,6 +30,9 @@ class SymbolTable:
         Args:
             variable (str): Var to be read into the table
         """
+        if not isinstance(variable, str):
+            raise TypeError("Variable is not a string!")
+
         if variable not in self.table:
             self.table[variable] = self.curr_ram_var
             self.curr_ram_var += 1
@@ -41,4 +47,7 @@ class SymbolTable:
         Returns:
             int: Returns the address of the symbol.
         """
+        if not isinstance(symbol, str):
+            raise TypeError("Symbol is not a string!")
+
         return self.table[symbol]
