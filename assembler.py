@@ -69,7 +69,7 @@ class ASMConvertor:
                     c_cmd_bin = self.c_cmd_conv_cls.dest_comp_jump_bin_convertor(line_read)
                     self.file_struc.append(c_cmd_bin)
 
-    def runner(self, file: str) -> list:
+    def file_struc_polluter(self, file: str) -> list:
         """
         Returns file struc.
 
@@ -80,20 +80,20 @@ class ASMConvertor:
         self.convert_asm_to_machine(file)
         return self.file_struc
 
-def main(file):
-    """
-    This func is used to translate asm lang to machine lang.
+    def machine_lang_file_writter(self, file: str):
+        """
+        This func is used to translate asm lang to machine lang.
 
-    Args:
-        file (.asm file): File containing asm language.
-    """
-    asm_conv_cls = ASMConvertor()
-    filename, _ = os.path.splitext(file)
-    file_struc = asm_conv_cls.runner(file)
-    with open(f"{filename}.txt", "w", encoding="utf-8") as txt_file:
-        for line in file_struc:
-            txt_file.write(line + "\n")
+        Args:
+            file (.asm file): File containing asm language.
+        """
+        filename, _ = os.path.splitext(file)
+        file_struc = self.file_struc_polluter(file)
+        with open(f"{filename}.txt", "w", encoding="utf-8") as txt_file:
+            for line in file_struc:
+                txt_file.write(line + "\n")
 
 if __name__ == '__main__':
     file_path = input("Specify the file path: ")
-    main(file_path)
+    asm_conv_class = ASMConvertor()
+    asm_conv_class.machine_lang_file_writter(file_path)
