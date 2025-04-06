@@ -1,4 +1,5 @@
 """This module is a assembler used to transform asm lang to machine lang"""
+import config
 
 def binary_num_calc(num: str) -> str:
     """
